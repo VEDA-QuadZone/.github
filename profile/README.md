@@ -1,12 +1,47 @@
-# CCTV기반 스쿨존 안전 모니터링 시스템
+# CCTV 기반 스쿨존 안전 모니터링 시스템
 
-<!--
+[cite\_start] 본 시스템은 CCTV 영상 분석과 센서 기술을 결합하여 스쿨존 내 어린이 보행자의 교통사고를 예방하는 실시간 안전 모니터링 시스템입니다[cite: 107]. [cite\_start]이 시스템은 불법 주정차, 과속과 같은 교통 법규 위반을 자동으로 감지하고 운전자에게 즉각적인 경고를 제공하여 안전한 교통 환경을 조성하는 것을 목표로 합니다[cite: 48, 50, 51].
 
-**Here are some ideas to get you started:**
+## 🌟 핵심 기능
 
-🙋‍♀️ A short introduction - what is your organization all about?
-🌈 Contribution guidelines - how can the community get involved?
-👩‍💻 Useful resources - where can the community find your docs? Is there anything else the community should know?
-🍿 Fun facts - what does your team eat for breakfast?
-🧙 Remember, you can do mighty things with the power of [Markdown](https://docs.github.com/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
--->
+  * [cite\_start]**불법 주정차 감지**: 차량이 지정된 구역에서 1분 이상 정차 시 '불법 정차'로 판단하여, 번호판, 감지 시간 및 증거 사진을 자동으로 기록합니다[cite: 136, 145].
+  * [cite\_start]**과속 차량 감지**: 지자기 센서로 측정한 차량 속도와 CCTV 영상의 객체 추적 결과를 결합하여 과속 차량을 실시간으로 판별합니다[cite: 148, 625].
+  * [cite\_start]**보행자 감지 및 경고**: 스쿨존에 보행자가 진입하면 이를 감지하여 LCD 디스플레이에 시각적 경고를, 스피커를 통해 음성 경고를 송출하여 운전자의 주의를 환기시킵니다[cite: 166, 916].
+  * [cite\_start]**실시간 모니터링 및 이력 관리**: Qt로 개발된 데스크톱 클라이언트를 통해 실시간 영상 스트리밍과 이벤트 알림을 제공하며, 발생한 모든 이벤트는 데이터베이스에 기록되어 언제든지 조회하고 관리할 수 있습니다[cite: 114, 281, 431].
+  * [cite\_start]**보안 통신**: 시스템의 모든 통신 구간(MQTT, TCP, RTSP)에 OpenSSL 기반의 TLS 암호화를 적용하여 데이터의 기밀성과 무결성을 보장합니다[cite: 898, 901, 902].
+
+-----
+
+## 🏗️ 시스템 아키텍처
+
+시스템은 다음과 같은 주요 구성 요소로 이루어져 있습니다.
+
+1.  **AI 카메라 (Raspberry Pi의 IMX500)**: 실시간으로 영상을 캡처하고, YOLO 기반 AI 모델을 통해 차량, 사람 등 객체를 탐지합니다. [cite\_start]탐지된 객체의 프레임과 메타데이터는 공유 메모리(`/dev/shm`)를 통해 다른 프로세스와 공유됩니다[cite: 259, 266, 1662, 1670, 1673].
+2.  [cite\_start]**속도 감지 모듈 (STM32)**: 4개의 DFR0033 지자기 센서를 이용해 차량의 통과를 감지하고 속도를 계산한 후, HC-05 블루투스 모듈을 통해 Raspberry Pi로 데이터를 무선 전송합니다[cite: 918, 932, 934, 1087].
+3.  **메인 서버 (Raspberry Pi 4)**:
+      * **IMX500-server**: 카메라 제어, 객체 탐지, IoU 기반 추적, 번호판 OCR, 메타데이터 생성 등 핵심 영상 처리 기능을 수행합니다.
+      * [cite\_start]**raspi-cctv-tcp-server**: 사용자 등록, 로그인 및 이벤트 이력 관리를 위한 TCP 서버로, SQLite 데이터베이스와 연동됩니다[cite: 877, 893, 1418].
+      * **이벤트 감지 모듈**: 공유된 메타데이터를 분석하여 불법 주정차, 과속, 보행자 감지 이벤트를 판별합니다.
+      * [cite\_start]**통신**: 실시간 이벤트 알림에는 MQTT를, 영상 스트리밍에는 RTSP 프로토콜을 사용합니다[cite: 314, 302].
+      * [cite\_start]**디바이스 제어**: `pedestrian_alert_system_driver`와 `speaker_driver` 같은 커스텀 커널 드라이버를 통해 LCD와 스피커를 제어합니다[cite: 992, 993].
+4.  [cite\_start]**모니터링 클라이언트 (QuadQT)**: Windows용 Qt 애플리케이션으로, 실시간 영상 스트리밍과 이벤트 알림을 시각적으로 표시하며, 사용자가 이벤트 이력을 필터링하고 조회할 수 있는 UI를 제공합니다[cite: 431, 1150, 1151, 1152, 1153].
+
+### 시스템 구성도
+<img width="2155" height="1213" alt="image" src="https://github.com/user-attachments/assets/8f9dd0d0-d1b9-4a69-925e-309aaea38a6a" />
+
+-----
+
+## 🛠️ 사용 기술
+
+  * [cite\_start]**하드웨어**: Raspberry Pi 4, STM32 Nucleo-F401RE, IMX500 AI 카메라, DFR0033 지자기 센서, HC-05 블루투스 모듈, ST7789V LCD 디스플레이, MAX98367A 오디오 DAC[cite: 185].
+  * **소프트웨어 & 프레임워크**:
+      * [cite\_start]**영상 처리 & 스트리밍**: OpenCV, FFmpeg[cite: 460].
+      * [cite\_start]**AI & 머신러닝**: TensorFlow Lite, ONNX[cite: 462].
+      * [cite\_start]**백엔드 & 통신**: C/C++, MQTT (Mosquitto), TCP, RTSP, OpenSSL[cite: 459, 464].
+      * [cite\_start]**프론트엔드**: Qt 6[cite: 458, 461].
+      * [cite\_start]**데이터베이스**: SQLite[cite: 466].
+      * [cite\_start]**임베디드**: STM32CubeIDE, 리눅스 커널 드라이버[cite: 190, 992].
+  * [cite\_start]**협업 도구**: GitHub, Notion, Figma[cite: 465, 209].
+
+
+
