@@ -29,7 +29,8 @@
 
 ### 전체 시스템 구성도
 
-\<img width="2155" height="1213" alt="시스템 구성도" src="[https://github.com/user-attachments/assets/8f9dd0d0-d1b9-4a69-925e-309aaea38a6a](https://github.com/user-attachments/assets/8f9dd0d0-d1b9-4a69-925e-309aaea38a6a)" /\>
+<img width="2158" height="1226" alt="image" src="https://github.com/user-attachments/assets/1087fe53-4ab1-44e4-9459-42431b83cd50" />
+
 
 -----
 
