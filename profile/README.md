@@ -7,6 +7,7 @@
 [최종 발표자료](https://github.com/VEDA-QuadZone/.github/blob/main/%EC%B5%9C%EC%A2%85%20%EB%B0%9C%ED%91%9C.pdf)
 
 ⬇ 최종 발표 영상
+
 [![Video Label](http://img.youtube.com/vi/PqK8Bq12_y0/0.jpg)](https://youtu.be/PqK8Bq12_y0)
 
 ## 🌟 핵심 기능
