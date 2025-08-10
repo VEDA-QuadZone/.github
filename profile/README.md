@@ -2,9 +2,9 @@
 
 본 시스템은 CCTV 영상 분석과 센서 기술을 결합하여 스쿨존 내 어린이 보행자의 교통사고를 예방하는 실시간 안전 모니터링 시스템입니다. 이 시스템은 불법 주정차, 과속과 같은 교통 법규 위반을 자동으로 감지하고 운전자에게 즉각적인 경고를 제공하여 안전한 교통 환경을 조성하는 것을 목표로 합니다.
 
-<최종 프로젝트 보고서>(https://github.com/VEDA-QuadZone/.github/blob/main/%EC%B5%9C%EC%A2%85%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EB%B3%B4%EA%B3%A0%EC%84%9C.pdf)
+[최종 프로젝트 보고서](https://github.com/VEDA-QuadZone/.github/blob/main/%EC%B5%9C%EC%A2%85%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EB%B3%B4%EA%B3%A0%EC%84%9C.pdf)
 
-<최종 발표>(https://github.com/VEDA-QuadZone/.github/blob/main/%EC%B5%9C%EC%A2%85%20%EB%B0%9C%ED%91%9C.pdf)
+[최종 발표](https://github.com/VEDA-QuadZone/.github/blob/main/%EC%B5%9C%EC%A2%85%20%EB%B0%9C%ED%91%9C.pdf)
 
 [![Video Label](http://img.youtube.com/vi/PqK8Bq12_y0/0.jpg)](https://youtu.be/PqK8Bq12_y0)
 
